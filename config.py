@@ -12,20 +12,25 @@
 #  4. YOUR_USER_ID: твой VK user_id (узнать: vk.com/id_number в URL)
 # ============================================================
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # --- БОТ (bot.py, запускается на сервере) ---
-GROUP_TOKEN   = "ВАШ_ТОКЕН_СООБЩЕСТВА"   # токен группы ВК
-ALLOWED_USER  = 123456789                  # только этот user_id может слать запросы
+GROUP_TOKEN   = os.getenv("GROUP_TOKEN")           # токен группы ВК
+ALLOWED_USER  = int(os.getenv("ALLOWED_USER", 0))  # только этот user_id может слать запросы
 
 # --- КЛИЕНТ (client.py, запускается локально) ---
-USER_TOKEN    = "ВАШ_USER_ТОКЕН"          # токен пользователя с правом messages
-GROUP_ID      = 987654321                  # ID сообщества-бота (без минуса)
+USER_TOKEN    = os.getenv("USER_TOKEN")            # токен пользователя с правом messages
+GROUP_ID      = int(os.getenv("GROUP_ID", 0))      # ID сообщества-бота (без минуса)
 
 # --- ПРОКСИ ---
-PROXY_HOST    = "127.0.0.1"
-PROXY_PORT    = 8080
+PROXY_HOST    = os.getenv("PROXY_HOST", "127.0.0.1")
+PROXY_PORT    = int(os.getenv("PROXY_PORT", 8080))
 
 # --- ПРОТОКОЛ ---
-CHUNK_SIZE    = 3500    # символов на одно VK-сообщение (лимит ~4096)
-REQUEST_TIMEOUT = 45    # сек, ждём ответ от бота
-FETCH_TIMEOUT   = 10    # сек, таймаут запроса бота к сайту
-MAX_BODY_SIZE   = 2 * 1024 * 1024  # 2 MB — не тащим больше
+CHUNK_SIZE      = int(os.getenv("CHUNK_SIZE", 3500))
+REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", 45))
+FETCH_TIMEOUT   = int(os.getenv("FETCH_TIMEOUT", 10))
+MAX_BODY_SIZE   = int(os.getenv("MAX_BODY_SIZE", 2 * 1024 * 1024))  # 2 MB
